@@ -76,3 +76,10 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub ${EnvironmentName} S3 Access IAM Role
+
+  #instace profile contains the IAM Role name(s) that we want to associate to our auto scaling EC2 Servers
+  ProfileWithRolesForOurApp:
+    Type: AWS::IAM::InstanceProfile
+    Properties: 
+      Roles:
+        - !Ref IAMRoleWithS3Access
