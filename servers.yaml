@@ -27,5 +27,52 @@ Resources:
         ToPort: 80
         CidrIp: 0.0.0.0/0
       Tags:
-          - Key: Name
-            Value: !Sub ${EnvironmentName} Load Balancer Security Group
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Load Balancer Security Group
+
+  WebServerSecGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security Group to allow http to host
+      VpcId:
+        Fn::ImportValue:
+          !Sub "${EnvironmentName}-VPCID"
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: 80
+        ToPort: 80
+        CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+      - IpProtocol: tcp
+        FromPort: 0
+        ToPort: 65535
+        CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} Web Server Security Group
+
+  IAMRoleWithS3Access:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      Description: Policy used to obtain objects from S3
+      RoleName: InstanceRole
+      Policies:
+        - PolicyName: UseS3Policy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: "s3:GetObject"
+                Resource: "*"  
+      Tags:
+        - Key: Name
+          Value: !Sub ${EnvironmentName} S3 Access IAM Role
