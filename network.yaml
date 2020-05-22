@@ -198,5 +198,5 @@ Resources:
   PrivateSubnet2RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      SubnetId: !Ref PrivateSubnet
+      SubnetId: !Ref PrivateSubnet2
       RouteTableId: !Ref PrivateRouteTable2     
