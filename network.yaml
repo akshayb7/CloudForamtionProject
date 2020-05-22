@@ -159,47 +159,45 @@ Resources:
 
   PrivateRouteTable1:
     Type: AWS::EC2::RouteTable
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
-      Tags:
-      - Key: Name
-        Value: !Sub ${EnvironmentName} Private Route Table 1
+      Tags: 
+      - Key: Name 
+        Value: !Sub ${EnvironmentName} Private Routes (AZ1)
 
   DefaultPrivateRoute1:
     Type: AWS::EC2::Route
-    DependsOn: InternetGatewayAttachment
     Properties:
-       RouteTableId: !Ref PrivateRouteTable1
-       DestinationCidrBlock: 0.0.0.0/0
-       GatewayId: !Ref NATGateway1  
+      RouteTableId: !Ref PrivateRouteTable1
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway1
 
   PrivateSubnet1RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
+      RouteTableId: !Ref PrivateRouteTable1
       SubnetId: !Ref PrivateSubnet1
-      RouteTableId: !Ref PrivateRouteTable1  
 
   PrivateRouteTable2:
     Type: AWS::EC2::RouteTable
-    Properties:
+    Properties: 
       VpcId: !Ref VPC
-      Tags:
-      - Key: Name
-        Value: !Sub ${EnvironmentName} Private Route Table 2
+      Tags: 
+      - Key: Name 
+        Value: !Sub ${EnvironmentName} Private Routes (AZ2)
 
   DefaultPrivateRoute2:
     Type: AWS::EC2::Route
-    DependsOn: InternetGatewayAttachment
     Properties:
-       RouteTableId: !Ref PrivateRouteTable2
-       DestinationCidrBlock: 0.0.0.0/0
-       GatewayId: !Ref NATGateway2  
+      RouteTableId: !Ref PrivateRouteTable2
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway2
 
   PrivateSubnet2RouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
+      RouteTableId: !Ref PrivateRouteTable2
       SubnetId: !Ref PrivateSubnet2
-      RouteTableId: !Ref PrivateRouteTable2     
 
 Outputs: 
 
