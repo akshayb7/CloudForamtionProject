@@ -168,3 +168,10 @@ Resources:
         Fn::ImportValue:
           Fn::Sub: "${EnvironmentName}-VPCID"
 
+Outputs: 
+
+  AppEndPoint: 
+    Description: URL for the Load Balancer
+    Value: !Join ["", ["http://", !GetAtt WebAppLB.DNSName,]]
+    Export:
+      Name: !Sub ${EnvironmentName}-DNS-NAME
